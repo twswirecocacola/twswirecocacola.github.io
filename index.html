@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>太古可口可樂各區消防自衛編組名單查詢</title>
+    <style>
+        /* CSS 樣式保持不變 */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f40009; /* Coca-Cola red */
+            background-image: 
+                url('https://www.svgrepo.com/show/251631/coke.svg'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="50" y="50" font-size="70" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.1)">可口可樂</text></svg>');
+            background-repeat: repeat, repeat;
+            background-size: 30px, 150px;
+            background-blend-mode: overlay;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #ff1443;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #f40009;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.1s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        button:hover {
+            background-color: #c5000b;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        #result {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f40009;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>太古可口可樂各區消防自衛編組名單查詢</h1>
+        <div class="button-container" id="areaButtons"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const data = {
+            "桃園廠區": {
+                "指揮官": "胡玲瑄",
+		"地區隊長": "1F:王俊強  /  2F:吳世耀  /  3F:黃建仁  /  4F:鄭翊南  /  5F:張志翔  /  6F:楊宗翰",
+                "自衛編組": {
+                    "通報班": { "班長": "1F:鄭婉如<br><br>2F:莊明富<br><br>3F:蔡安順<br><br>4F:卓雅莙<br><br>5F:陳睿凡<br><br>6F:謝虹美", "成員": "1F:麥家福<br><br>2F:陳炳華、簡惠君<br><br>3F:古弘合、黃冠霖<br><br>4F:呂佳茹<br><br>5F:蔡春娥<br><br>6F:林韻詩" },
+                    "滅火班": { "班長": "1F:童日明<br><br>2F:胡志成<br><br>3F:潘致達<br><br>4F:周夏暐<br><br>5F:邱正傑<br><br>6F:周庭毅", "成員": "1F:簡宇辰<br><br>2F:高志宏、陳忠緯<br><br>3F:林圓堡、歐泰寶<br><br>4F:張聖賢<br><br>5F:吳朝輝、廖世源<br><br>6F:陳泰安" },
+                    "避難引導班": { "班長": "1F:林博彥<br><br>2F:王瑞昌<br><br>3F:曹文宏<br><br>4F:陳怡德<br><br>5F褚明琪<br><br>6F:周春玫", "成員": "1F:劉昌虔<br><br>2F:張健堡、吳清波<br><br>3F:林宏彥<br><br>4F:游蕙甄 <br><br>5F:許益闓<br><br>6F:余玉芬" },
+		    "安全防護班": { "班長": "1F:阮陳彬<br><br>2F:黃俊傑<br><br>3F:盧建鴻<br><br>4F:鄭博聖<br><br>5F:賴慶和<br><br>6F:陳子倫", "成員": "1F:吳宇馥<br><br>2F:李世盟、羅敏峰<br><br>3F:陳國棟、王金福<br><br>4F:謝鴻麟<br><br>5F:丁弘生<br><br>6F:黃志剛" },
+		    "緊急救護班": { "班長": "1F:郭冠良<br><br>2F:郭冠良<br><br>3F:郭冠良<br><br>4F:郭冠良<br><br>5F:郭冠良<br><br>6F:郭冠良", "成員": "1F:黃郁蕊、施建興<br><br>2F:黃郁蕊、施建興<br><br>3F:黃郁蕊、施建興<br><br>4F:黃郁蕊、施建興<br><br>5F:黃郁蕊、施建興<br><br>6F:黃郁蕊、施建興" }
+                }
+            },
+            "汐止倉辦公室": {
+                "指揮官": "林錦川",
+		"地區隊長": "沈家銓",
+                "自衛編組": {
+                    "通報班": { "班長": "陳兆祥/郭晉銘", "成員": "沈國良" },
+                    "滅火班": { "班長": "李銘傑", "成員": "陳傳芳" },
+                    "避難引導班": { "班長": "吳宛宜", "成員": "陳慧珍" }
+                }
+            },
+            "北區供貨DSD": {
+                "指揮官": "胡鴻達",
+		"地區隊長": "曾昱綸",
+                "自衛編組": {
+                    "通報班": { "班長": "陳雅玲", "成員": "日佩筠" },
+                    "滅火班": { "班長": "張博翔", "成員": "羅章宏" },
+                    "避難引導班": { "班長": "陳心榆", "成員": "張芯儒" },
+                    "安全防護班": { "班長": "簡文凱", "成員": "" },
+                    "緊急救護班": { "班長": "沈國民", "成員": "劉俊傑" }
+                }
+            },
+            "中區營運中心": {
+                "指揮官": "嚴仁鴻",
+		"地區隊長": "潘自強",
+                "自衛編組": {
+                    "通報班": { "班長": "黎淑芳", "成員": "謝春美 呂青紋" },
+                    "滅火班": { "班長": "陳金助", "成員": "廖述富 蕭名傑" },
+                    "避難引導班": { "班長": "施文冠", "成員": "黃秋萍 羅昭義" },
+                    "安全防護班": { "班長": "", "成員": "" },
+                    "緊急救護班": { "班長": "", "成員": "" }
+                }
+            },
+            "高雄營運中心": {
+                "指揮官": "周逢欣",
+		"地區隊長": "傅延騰",
+                "自衛編組": {
+                    "通報班": { "班長": "李坤燕", "成員": "楊淑娟/宋慧凰" },
+                    "滅火班": { "班長": "林志隆/郭享坤", "成員": "柳佑親/黃來旺/黃家濬" },
+                    "避難引導班": { "班長": "鄭光佑", "成員": "周家旺/莊素珍/陳孟娟" }
+                }
+
+            },
+            "宜蘭所": {
+                "指揮官": "蘇俊明",
+		"地區隊長": "蘇俊明",
+                "自衛編組": {
+                    "通報班": { "班長": "林恆吉", "成員": "" },
+                    "滅火班": { "班長": "蔡柏楷", "成員": "" },
+                    "避難引導班": { "班長": "許浩淳", "成員": "" }
+            }
+            },
+            "花蓮所": {
+                "指揮官": "萬信用",
+		"地區隊長": "萬信用",
+                "自衛編組": {
+                    "通報班": { "班長": "戴中清", "成員": "" },
+                    "滅火班": { "班長": "戴中清", "成員": "" }
+                }
+ 		},
+            "台北所": {
+                "指揮官": "張品雄",
+		"地區隊長": "黃柏儒",
+                "自衛編組": {
+                    "通報班": { "班長": "李明育", "成員": "姚相儒" },
+                    "滅火班": { "班長": "劉信宏", "成員": "張雲凱" },
+                    "避難引導班": { "班長": "劉和海", "成員": "張哲魁" }
+                }
+            },
+            "板橋所": {
+                "指揮官": "林威呈",
+		"地區隊長": "駱志宗",
+                "自衛編組": {
+                    "通報班": { "班長": "宮肇祥", "成員": "" },
+                    "滅火班": { "班長": "羅偉銘", "成員": "蘇桓慶" },
+                    "避難引導班": { "班長": "邱信正", "成員": "謝金錠" },
+                    "安全防護班": { "班長": "任志興", "成員": "游峻祺" },
+                    "緊急救護班": { "班長": "薛原進", "成員": "廖文婷" }
+                }
+            },
+            "桃園所": {
+                "指揮官": "楊文翔",
+		"地區隊長": "林國勝",
+                "自衛編組": {
+                    "通報班": { "班長": "林榮生", "成員": "徐志賢" },
+                    "滅火班": { "班長": "黃冠豪", "成員": "王修齊" },
+                    "避難引導班": { "班長": "廖偉志   ", "成員": "楊承瑋" },
+                    "安全防護班": { "班長": "陳上軒", "成員": "徐衍漢" },
+                    "緊急救護班": { "班長": "許鈞皓", "成員": "楊茵茵" }
+                }
+            },
+            "新竹所": {
+                "指揮官": "李義昌",
+		"地區隊長": "簡言任",
+                "自衛編組": {
+                    "通報班": { "班長": "蘇怡達", "成員": "唐鈺翔" },
+                    "滅火班": { "班長": "紀守謙", "成員": "鄭翔聲" },
+                    "避難引導班": { "班長": "邱秀清", "成員": "潘秀絨" },
+                    "安全防護班": { "班長": "李長榮", "成員": "盧俊翔" }
+                }
+            },
+            "嘉義所": {
+                "指揮官": "陳茂盛",
+		"地區隊長": "李建興",
+                "自衛編組": {
+                    "通報班": { "班長": "陳庭田", "成員": "" },
+                    "滅火班": { "班長": "周奇勳", "成員": "" },
+                    "避難引導班": { "班長": "張銘文", "成員": "" },
+                }
+            },
+            "台南所": {
+                "指揮官": "李健成",
+		"地區隊長": "謝宗恕",
+                "自衛編組": {
+                    "通報班": { "班長": "蔡佩君", "成員": "黃崴綸" },
+                    "滅火班": { "班長": "黃斌銓", "成員": "張育恆/曾毓仁/蔡詠麒" },
+                    "避難引導班": { "班長": "朱冠宇", "成員": "林世斌/黃沛緹/何紹寧" }
+                }
+            },
+            "高屏所": {
+                "指揮官": "楊國文",
+		"地區隊長": "曾建仁",
+                "自衛編組": {
+                    "通報班": { "班長": "王豪毅", "成員": "李玄吉/楊添元" },
+                    "滅火班": { "班長": "顏北辰", "成員": "徐銘鴻/黃俊廷" },
+                    "避難引導班": { "班長": "林文祥", "成員": "李健平/郭育騰" }
+                }
+            }
+        };
+
+        function createButtons() {
+            const buttonContainer = document.getElementById('areaButtons');
+            for (const area in data) {
+                const button = document.createElement('button');
+                button.textContent = area;
+                button.onclick = () => showResult(area);
+                buttonContainer.appendChild(button);
+            }
+        }
+
+        function showResult(area) {
+            const resultDiv = document.getElementById('result');
+            const areaData = data[area];
+            let html = `<h2>${area}</h2>`;
+            html += `<p><strong>指揮官：</strong>${areaData.指揮官}</p>`;
+	    html += `<p><strong>地區隊長：</strong>${areaData.地區隊長}</p>`;
+            html += `<table><tr><th>組別</th><th>班長</th><th>成員</th></tr>`;
+            for (const group in areaData.自衛編組) {
+                html += `<tr><td>${group}</td><td>${areaData.自衛編組[group]['班長']}</td><td>${areaData.自衛編組[group]['成員']}</td></tr>`;
+            }
+            html += '</table>';
+            resultDiv.innerHTML = html;
+        }
+
+        window.onload = createButtons;
+    </script>
+</body>
+</html>
+<center>
+ <font size=30 color=#fffff>消防自衛編組職責說明</font>
+</center>
+<center>
+<img src="https://www.tfdp.com.tw/upload/cht/attachment/38db15d7196140ff7a7bc3f5bd3db55a.png" width="360" height="360">
+<img src="https://www.tfdp.com.tw/upload/cht/attachment/30eab92df4fe2ec9d7f85310ea794649.png" width="360" height="360">
+<img src="https://www.tfdp.com.tw/upload/cht/attachment/32dfaea23b337c2fa4384363fca71d5d.png" width="360" height="360">
+<img src="https://www.tfdp.com.tw/upload/cht/attachment/e6b93eedfd903809636867878aed6771.png" width="360" height="360">
+<img src="https://www.tfdp.com.tw/upload/cht/attachment/932e7fdbbd9f2da70fcd415d8297515f.png" width="360" height="360">
+</center>
